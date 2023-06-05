@@ -11,8 +11,8 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
-
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: True  # [py<38]
 requirements:
   build:
     - {{ compiler('c') }}
@@ -21,19 +21,20 @@ requirements:
     - python
     - pip
     - cython >=0.28.5
-    - numpy
+    - numpy >=1.13.3
     - wheel
     - setuptools
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy
+    - scipy >=0.19.1
     - joblib
     - scikit-learn >=0.23.0
 
 test:
   requires:
     - pytest >=3.3.0
+    - pip
   imports:
     - sklearn_extra
   commands:
@@ -42,7 +43,7 @@ test:
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - export OMP_NUM_THREADS=1            # [not win]
     - pytest --verbose --pyargs sklearn_extra -k "not test_all_estimators"
-
+    - pip check
 about:
   home: https://github.com/scikit-learn-contrib/scikit-learn-extra
   license: BSD-3-Clause
