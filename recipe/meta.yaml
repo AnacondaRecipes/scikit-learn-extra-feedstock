@@ -21,13 +21,13 @@ requirements:
     - python
     - pip
     - cython >=0.28.5
-    - numpy
+    - numpy >=1.13.3
     - wheel
     - setuptools
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy >=0.19.1
+    - scipy
     - joblib
     - scikit-learn >=0.24.0
 
