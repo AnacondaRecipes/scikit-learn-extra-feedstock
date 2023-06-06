@@ -21,7 +21,7 @@ requirements:
     - python
     - pip
     - cython >=0.28.5
-    - numpy >=1.13.3
+    - numpy
     - wheel
     - setuptools
   run:
@@ -29,7 +29,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - scipy >=0.19.1
     - joblib
-    - scikit-learn >=0.23.0
+    - scikit-learn >=0.24.0
 
 test:
   requires:
@@ -50,7 +50,6 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: scikit-learn contrib estimators
-
   description: |
     scikit-learn-extra is a Python module for machine learning that extends
     scikit-learn. It includes algorithms that are useful but do not satisfy
