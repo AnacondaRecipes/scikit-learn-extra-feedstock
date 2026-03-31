@@ -1,5 +1,5 @@
 {% set name = "scikit-learn-extra" %}
-{% set version = "0.2.0" %}
+{% set version = "0.3.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3b1bb5fedde47920eb4b3fa0a0c18f80cc7359d9d0496720178788c6153b8019
+  sha256: 7912d43384470d77609e53819d0291967f21010e5c3a3847f9026fc02f9c7893
 
 build:
-  number: 2
-  script: {{ PYTHON }} -m pip install . -vv
-
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: True  # [py<38]
 requirements:
   build:
     - {{ compiler('c') }}
@@ -21,17 +21,20 @@ requirements:
     - python
     - pip
     - cython >=0.28.5
-    - numpy
+    - numpy >=1.13.3
+    - wheel
+    - setuptools
   run:
     - python
     - {{ pin_compatible('numpy') }}
-    - scipy
+    - scipy >=0.19.1
     - joblib
-    - scikit-learn >=0.23.0
+    - scikit-learn >=0.24.0
 
 test:
   requires:
     - pytest >=3.3.0
+    - pip
   imports:
     - sklearn_extra
   commands:
@@ -40,14 +43,13 @@ test:
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - export OMP_NUM_THREADS=1            # [not win]
     - pytest --verbose --pyargs sklearn_extra -k "not test_all_estimators"
-
+    - pip check
 about:
   home: https://github.com/scikit-learn-contrib/scikit-learn-extra
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: scikit-learn contrib estimators
-
   description: |
     scikit-learn-extra is a Python module for machine learning that extends
     scikit-learn. It includes algorithms that are useful but do not satisfy
